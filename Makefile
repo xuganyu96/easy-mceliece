@@ -1,42 +1,53 @@
-MCELIECE8192128_SOURCES = \
-	mceliece/mceliece8192128/benes.c \
-	mceliece/mceliece8192128/bm.c \
-	mceliece/mceliece8192128/controlbits.c \
-	mceliece/mceliece8192128/crypto_hash.c \
-	mceliece/mceliece8192128/decrypt.c \
-	mceliece/mceliece8192128/encrypt.c \
-	mceliece/mceliece8192128/fips202.c \
-	mceliece/mceliece8192128/gf.c \
-	mceliece/mceliece8192128/operations.c \
-	mceliece/mceliece8192128/pk_gen.c \
-	mceliece/mceliece8192128/randombytes.c \
-	mceliece/mceliece8192128/root.c \
-	mceliece/mceliece8192128/sk_gen.c \
-	mceliece/mceliece8192128/synd.c \
-	mceliece/mceliece8192128/transpose.c \
-	mceliece/mceliece8192128/util.c
+MCELIECE348864HEADERS = mceliece/mceliece348864/api.h \
+						mceliece/mceliece348864/benes.h \
+						mceliece/mceliece348864/bm.h \
+						mceliece/mceliece348864/controlbits.h \
+						mceliece/mceliece348864/crypto_hash.h \
+						mceliece/mceliece348864/crypto_kem.h \
+						mceliece/mceliece348864/crypto_kem_mceliece348864.h \
+						mceliece/mceliece348864/decrypt.h \
+						mceliece/mceliece348864/encrypt.h \
+						mceliece/mceliece348864/gf.h \
+						mceliece/mceliece348864/int32_sort.h \
+						mceliece/mceliece348864/keccak.h \
+						mceliece/mceliece348864/operations.h \
+						mceliece/mceliece348864/params.h \
+						mceliece/mceliece348864/pk_gen.h \
+						mceliece/mceliece348864/randombytes.h \
+						mceliece/mceliece348864/root.h \
+						mceliece/mceliece348864/sk_gen.h \
+						mceliece/mceliece348864/synd.h \
+						mceliece/mceliece348864/transpose.h \
+						mceliece/mceliece348864/uint64_sort.h \
+						mceliece/mceliece348864/util.h \
+						mceliece/mceliece348864/subroutines/crypto_declassify.h \
+						mceliece/mceliece348864/subroutines/crypto_int16.h \
+						mceliece/mceliece348864/subroutines/crypto_int32.h \
+						mceliece/mceliece348864/subroutines/crypto_uint16.h \
+						mceliece/mceliece348864/subroutines/crypto_uint32.h \
+						mceliece/mceliece348864/subroutines/crypto_uint64.h
 
-MCELIECE6960119_SOURCES = \
-	mceliece/mceliece6960119/benes.c \
-	mceliece/mceliece6960119/bm.c \
-	mceliece/mceliece6960119/controlbits.c \
-	mceliece/mceliece6960119/keccak.c \
-	mceliece/mceliece6960119/decrypt.c \
-	mceliece/mceliece6960119/encrypt.c \
-	mceliece/mceliece6960119/gf.c \
-	mceliece/mceliece6960119/operations.c \
-	mceliece/mceliece6960119/pk_gen.c \
-	mceliece/mceliece6960119/randombytes.c \
-	mceliece/mceliece6960119/root.c \
-	mceliece/mceliece6960119/sk_gen.c \
-	mceliece/mceliece6960119/synd.c \
-	mceliece/mceliece6960119/transpose.c \
-	mceliece/mceliece6960119/util.c
+MCELIECE348864SOURCES = mceliece/mceliece348864/benes.c \
+						mceliece/mceliece348864/benes.c \
+						mceliece/mceliece348864/bm.c \
+						mceliece/mceliece348864/controlbits.c \
+						mceliece/mceliece348864/decrypt.c \
+						mceliece/mceliece348864/encrypt.c \
+						mceliece/mceliece348864/gf.c \
+						mceliece/mceliece348864/keccak.c \
+						mceliece/mceliece348864/operations.c \
+						mceliece/mceliece348864/pk_gen.c \
+						mceliece/mceliece348864/randombytes.c \
+						mceliece/mceliece348864/root.c \
+						mceliece/mceliece348864/sk_gen.c \
+						mceliece/mceliece348864/synd.c \
+						mceliece/mceliece348864/transpose.c \
+						mceliece/mceliece348864/util.c
 
 CFLAGS += -O3
 
-main: main.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $(MCELIECE6960119_SOURCES) main.c -o target/$@
+main: $(MCELIECE348864SOURCES) $(MCELIECE348864HEADERS) main.c
+	$(CC) $(CFLAGS) $(LDFLAGS) $(MCELIECE348864SOURCES) main.c -o target/$@
 	./target/main
 
 clean:
