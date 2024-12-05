@@ -6,11 +6,11 @@ This project adapts from the reference implementations: it removes some idiosync
 # API
 
 # What changed?
+- `nist/rng` is replaced with portable implementation `randombytes.h`
+- `crypto_hash.h` is replaced with portable implementation `keccak.h`
 - removed all namespacing
-- removed `crypto_hash.h`'s dependency on `libkeccak`; instead, a portable implementation is adapted from [Kyber's reference implementation](https://github.com/pq-crystals/kyber/blob/main/ref/fips202.c), which is itself adapted from TweetFips202
-- removed `crypto_kem.h`, `crypto_kem_mcelieceXXXXXXX.h`, and `kat_kem.c`
-- added `#include "gf.h"` to `bm.h`
-- `nist/rng` is removed because it depends on OpenSSL; `randombytes.h` is implemented using a portable implementation from [here](https://github.com/pq-crystals/kyber/blob/main/ref/randombytes.c)
+- pathing and other minor fixes
 
 # What's next
-For now none of the "f" variants (the only differece between "f" and normal variants are key generation speed; they are otherwise entirely interoperable) are adapted.
+- [ ] For now none of the "f" variants (the only differece between "f" and normal variants are key generation speed; they are otherwise entirely interoperable) are adapted.
+- [ ] There are many duplicate files, maybe we can unify them, but I want to avoid premature optimization
