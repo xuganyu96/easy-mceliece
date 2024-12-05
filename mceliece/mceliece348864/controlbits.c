@@ -9,9 +9,9 @@
 #include <string.h>
 typedef int16_t int16;
 typedef int32_t int32;
-#include "subroutines/crypto_int32.h"
+#include "subroutines/subroutines/crypto_int32.h"
 #define int32_min crypto_int32_min
-#include "subroutines/crypto_int16.h"
+#include "subroutines/subroutines/crypto_int16.h"
 
 /* parameters: 1 <= w <= 14; n = 2^w */
 /* input: permutation pi of {0,1,...,n-1} */

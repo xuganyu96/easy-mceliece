@@ -1,5 +1,5 @@
-#include "mceliece/mceliece348864/api.h"
-#include "mceliece/mceliece348864/crypto_kem.h"
+#include "mceliece/mceliece8192128/api.h"
+#include "mceliece/mceliece8192128/crypto_kem.h"
 #include <stdint.h>
 #include <stdio.h>
 
