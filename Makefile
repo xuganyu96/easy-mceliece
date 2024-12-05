@@ -16,10 +16,28 @@ MCELIECE8192128_SOURCES = \
 	mceliece/mceliece8192128/transpose.c \
 	mceliece/mceliece8192128/util.c
 
+MCELIECE6960119_SOURCES = \
+	mceliece/mceliece6960119/benes.c \
+	mceliece/mceliece6960119/bm.c \
+	mceliece/mceliece6960119/controlbits.c \
+	mceliece/mceliece6960119/keccak.c \
+	mceliece/mceliece6960119/decrypt.c \
+	mceliece/mceliece6960119/encrypt.c \
+	mceliece/mceliece6960119/gf.c \
+	mceliece/mceliece6960119/operations.c \
+	mceliece/mceliece6960119/pk_gen.c \
+	mceliece/mceliece6960119/randombytes.c \
+	mceliece/mceliece6960119/root.c \
+	mceliece/mceliece6960119/sk_gen.c \
+	mceliece/mceliece6960119/synd.c \
+	mceliece/mceliece6960119/transpose.c \
+	mceliece/mceliece6960119/util.c
+
 CFLAGS += -O3
 
 main: main.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $(MCELIECE8192128_SOURCES) main.c -o target/$@
+	$(CC) $(CFLAGS) $(LDFLAGS) $(MCELIECE6960119_SOURCES) main.c -o target/$@
+	./target/main
 
 clean:
 	$(RM) target/*

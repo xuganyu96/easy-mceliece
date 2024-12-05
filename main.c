@@ -1,11 +1,6 @@
-#include "mceliece/mceliece8192128/operations.h"
+#include "mceliece/mceliece6960119/operations.h"
 #include <stdint.h>
 #include <stdio.h>
-
-#define PUBLICKEYBYTES 1357824
-#define SECRETKEYBYTES 14120
-#define CIPHERTEXTBYTES 208
-#define SSBYTES 32
 
 int main(void) {
   uint8_t pk[PUBLICKEYBYTES];
