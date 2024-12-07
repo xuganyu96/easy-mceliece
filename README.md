@@ -4,6 +4,8 @@
 This project adapts from the reference implementations: it removes some idiosyncrasy associated with "submitting to NIST" and some dependencies that are not readily available on a fresh MacOS environment.
 
 # API
+- specify the macro `MCELIECE_N=<3488|4608|6688|6960|8192>` to indicate the level
+- check the Makefile to 
 
 # What changed?
 - `nist/rng` is replaced with portable implementation `randombytes.h`
