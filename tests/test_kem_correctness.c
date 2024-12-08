@@ -1,10 +1,10 @@
-#include "easy-mceliece/api.h"
-#include "easy-mceliece/crypto_kem.h"
+#include "../easy-mceliece/api.h"
+#include "../easy-mceliece/crypto_kem.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TEST_ROUNDS 1
+#define TEST_ROUNDS 10
 
 int main(void) {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];

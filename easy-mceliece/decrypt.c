@@ -65,27 +65,11 @@ int decrypt(unsigned char *e, const unsigned char *sk, const unsigned char *c) {
     w += t;
   }
 
-#ifdef KAT
-  {
-    int k;
-    printf("decrypt e: positions");
-    for (k = 0; k < SYS_N; ++k)
-      if (e[k / 8] & (1 << (k & 7)))
-        printf(" %d", k);
-    printf("\n");
-  }
-#endif
-
   synd(s_cmp, g, L, e);
-
-  //
-
   check = w;
   check ^= SYS_T;
-
   for (i = 0; i < SYS_T * 2; i++)
     check |= s[i] ^ s_cmp[i];
-
   check -= 1;
   check >>= 15;
 
