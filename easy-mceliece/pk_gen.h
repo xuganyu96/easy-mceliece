@@ -8,5 +8,7 @@
 #include "gf.h"
 
 int pk_gen(unsigned char *, unsigned char *, uint32_t *, int16_t *);
+int pk_gen_f(unsigned char *, unsigned char *, uint32_t *, int16_t *,
+             uint64_t *);
 
 #endif

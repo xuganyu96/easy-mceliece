@@ -138,6 +138,9 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
   unsigned char
       r[SYS_N / 8 + (1 << GFBITS) * sizeof(uint32_t) + SYS_T * 2 + 32];
   unsigned char *rp, *skp;
+#ifdef FASTKEYGEN
+  uint64_t pivots;
+#endif
 
   gf f[SYS_T];                // element in GF(2^mt)
   gf irr[SYS_T];              // Goppa polynomial
@@ -179,8 +182,13 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
     for (i = 0; i < (1 << GFBITS); i++)
       perm[i] = load4(rp + i * 4);
 
+#ifdef FASTKEYGEN
+    if (pk_gen_f(pk, skp - IRR_BYTES, perm, pi, &pivots))
+      continue;
+#else
     if (pk_gen(pk, skp - IRR_BYTES, perm, pi))
       continue;
+#endif
 
     controlbitsfrompermutation(skp, pi, GFBITS, 1 << GFBITS);
     skp += COND_BYTES;
@@ -190,9 +198,12 @@ int crypto_kem_keypair(unsigned char *pk, unsigned char *sk) {
     rp -= SYS_N / 8;
     memcpy(skp, rp, SYS_N / 8);
 
-    // storing positions of the 32 pivots
-
+// storing positions of the 32 pivots
+#ifdef FASTKEYGEN
+    store8(sk + 32, pivots);
+#else
     store8(sk + 32, 0xFFFFFFFF);
+#endif
 
     break;
   }

@@ -1,21 +1,14 @@
+When building, include all `easy-mceliece` C files. Use the following flags to control the variant being compiled:
+- `MCELIECE_N=<3488|4608|6688|6960|8192>`
+- define the macro `FASTKEYGEN` to use the fast
+
 # Easy McEliece
 **motivation**: I want to work with the sub-routines of classic McEliece's reference implementation (submitted to NIST's PQC standardization project), but my dev environment is MacOS whereas reference implementations, despite striving for maximal portability, are developed on Linux. Classic McEliece's reference implementation also contains a number of dependencies that I do not have on my computer.
 
 This project adapts from the reference implementations: it removes some idiosyncrasy associated with "submitting to NIST" and some dependencies that are not readily available on a fresh MacOS environment.
 
-# API
-- specify the macro `MCELIECE_N=<3488|4608|6688|6960|8192>` to indicate the level
-- check the Makefile to 
-
-# What changed?
-- `nist/rng` is replaced with portable implementation `randombytes.h`
-- `crypto_hash.h` is replaced with portable implementation `keccak.h`
-- removed all namespacing
-- pathing and other minor fixes
-
 # What's next
-- [ ] For now none of the "f" variants (the only differece between "f" and normal variants are key generation speed; they are otherwise entirely interoperable) are adapted.
-- [ ] There are many duplicate files, maybe we can unify them, but I want to avoid premature optimization
+- [ ] Incorporate code from `vec`, `sse`, and `avx2` implementations
 
 # Notes on performance
 According to the [official website](https://classic.mceliece.org/impl.html), McEliece's encapsulation and decapsulation times (measured in Haswell CPU cycles) are as follows:
@@ -37,10 +30,16 @@ The ratio between decapsulation cost and encapsulation cost ranges between 3.48 
 
 **However, the benchmark data on my laptop have very different shape:**
 
-| Binary Name                   | Keypair Time | Encryption Time | Decryption Time |
-|-------------------------------|--------------|-----------------|-----------------|
-| test_mceliece348864_speed     | 1499963      | 475             | 464340          |
-| test_mceliece460896_speed     | 4523607      | 771             | 1118701         |
-| test_mceliece6688128_speed    | 11455592     | 1566            | 2187536         |
-| test_mceliece6960119_speed    | 9783005      | 15428           | 2084421         |
-| test_mceliece8192128_speed    | 12189563     | 1518            | 2635599         |
+| Binary Name                       | Keypair Time | Encap Time | Decap Time |
+|:--|--:|--:|--:|
+| test_mceliece348864_speed         | 1571116      | 459        | 464351     |
+| test_mceliece348864f_speed        | 778952       | 459        | 465089     |
+| test_mceliece460896_speed         | 3717257      | 781        | 1120455    |
+| test_mceliece460896f_speed        | 2209614      | 715        | 1118472    |
+| test_mceliece6688128_speed        | 10669633     | 1623       | 2153795    |
+| test_mceliece6688128f_speed       | 4116968      | 1558       | 2154290    |
+| test_mceliece6960119_speed        | 10012902     | 15264      | 2086029    |
+| test_mceliece6960119f_speed       | 3941851      | 15631      | 2084772    |
+| test_mceliece8192128_speed        | 14350639     | 1498       | 2636440    |
+| test_mceliece8192128f_speed       | 4503919      | 1556       | 2637498    |
+
