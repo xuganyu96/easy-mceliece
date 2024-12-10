@@ -19,12 +19,12 @@ EASYMCELIECEHEADERS = easy-mceliece/api.h \
 					  easy-mceliece/transpose.h \
 					  easy-mceliece/uint64_sort.h \
 					  easy-mceliece/util.h \
-					  easy-mceliece/subroutines/crypto_declassify.h \
-					  easy-mceliece/subroutines/crypto_int16.h \
-					  easy-mceliece/subroutines/crypto_int32.h \
-					  easy-mceliece/subroutines/crypto_uint16.h \
-					  easy-mceliece/subroutines/crypto_uint32.h \
-					  easy-mceliece/subroutines/crypto_uint64.h
+					  easy-mceliece/crypto_declassify.h \
+					  easy-mceliece/crypto_int16.h \
+					  easy-mceliece/crypto_int32.h \
+					  easy-mceliece/crypto_uint16.h \
+					  easy-mceliece/crypto_uint32.h \
+					  easy-mceliece/crypto_uint64.h
 
 EASYMCELIECESOURCES = easy-mceliece/benes.c \
 					  easy-mceliece/bm.c \

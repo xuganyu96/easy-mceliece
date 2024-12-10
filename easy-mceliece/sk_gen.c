@@ -3,14 +3,10 @@
 */
 
 #include "sk_gen.h"
-
-#include "controlbits.h"
+#include "crypto_declassify.h"
+#include "crypto_uint16.h"
 #include "gf.h"
 #include "params.h"
-#include "randombytes.h"
-#include "subroutines/crypto_declassify.h"
-#include "subroutines/crypto_uint16.h"
-#include "util.h"
 
 static inline crypto_uint16 gf_is_zero_declassify(gf t) {
   crypto_uint16 mask = crypto_uint16_zero_mask(t);

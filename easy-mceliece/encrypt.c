@@ -3,17 +3,14 @@
 */
 
 #include "encrypt.h"
-
+#include "crypto_declassify.h"
+#include "crypto_uint16.h"
+#include "crypto_uint32.h"
 #include "params.h"
 #include "randombytes.h"
 #include "util.h"
-
 #include <assert.h>
 #include <stdint.h>
-
-#include "subroutines/crypto_declassify.h"
-#include "subroutines/crypto_uint16.h"
-#include "subroutines/crypto_uint32.h"
 
 static inline crypto_uint16 uint16_is_smaller_declassify(uint16_t t,
                                                          uint16_t u) {

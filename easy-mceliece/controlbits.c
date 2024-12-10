@@ -4,14 +4,15 @@
 /* See also https://cr.yp.to/papers/controlbits-20200923.pdf */
 
 #include "controlbits.h"
+#include "crypto_declassify.h"
+#include "crypto_int16.h"
+#include "crypto_int32.h"
 #include "int32_sort.h"
-#include "subroutines/crypto_declassify.h"
 #include <string.h>
+
+#define int32_min crypto_int32_min
 typedef int16_t int16;
 typedef int32_t int32;
-#include "subroutines/crypto_int32.h"
-#define int32_min crypto_int32_min
-#include "subroutines/crypto_int16.h"
 
 /* parameters: 1 <= w <= 14; n = 2^w */
 /* input: permutation pi of {0,1,...,n-1} */

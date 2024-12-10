@@ -6,11 +6,11 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "crypto_declassify.h"
+#include "crypto_uint64.h"
 #include "params.h"
 #include "pk_gen.h"
 #include "root.h"
-#include "subroutines/crypto_declassify.h"
-#include "subroutines/crypto_uint64.h"
 #include "uint64_sort.h"
 #include "util.h"
 
