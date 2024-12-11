@@ -1,8 +1,8 @@
 /**
  * Various kinds of speed test
  */
-#include "../easy-mceliece/api.h"
-#include "../easy-mceliece/crypto_kem.h"
+#include "../vec/api.h"
+#include "../vec/crypto_kem.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,7 +63,7 @@ static int benchmark_kem_dec() {
 
   // compute the medium
   qsort(batch_times, BATCH_COUNT, sizeof(uint64_t), uint64_t_cmp);
-  printf("Medium %12s time: %llu\n", "decryption", batch_times[MEDIUM_LOC]);
+  printf("Medium %12s time: %16llu\n", "decryption", batch_times[MEDIUM_LOC]);
 
   return 0;
 }
@@ -94,7 +94,7 @@ static int benchmark_kem_enc() {
 
   // compute the medium
   qsort(batch_times, BATCH_COUNT, sizeof(uint64_t), uint64_t_cmp);
-  printf("Medium %12s time: %llu\n", "encryption", batch_times[MEDIUM_LOC]);
+  printf("Medium %12s time: %16llu\n", "encryption", batch_times[MEDIUM_LOC]);
 
   return 0;
 }
@@ -121,7 +121,7 @@ static int benchmark_kem_keypair() {
 
   // compute the medium
   qsort(batch_times, BATCH_COUNT, sizeof(uint64_t), uint64_t_cmp);
-  printf("Medium %12s time: %llu\n", "keypair", batch_times[MEDIUM_LOC]);
+  printf("Medium %12s time: %16llu\n", "keypair", batch_times[MEDIUM_LOC]);
 
   return 0;
 }

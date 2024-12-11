@@ -1,45 +1,37 @@
-When building, include all `easy-mceliece` C files. Use the following flags to control the variant being compiled:
-- `MCELIECE_N=<3488|4608|6688|6960|8192>`
-- define the macro `FASTKEYGEN` to use the fast
+- [ ] `vec` is currenly terribly ugly
 
 # Easy McEliece
-**motivation**: I want to work with the sub-routines of classic McEliece's reference implementation (submitted to NIST's PQC standardization project), but my dev environment is MacOS whereas reference implementations, despite striving for maximal portability, are developed on Linux. Classic McEliece's reference implementation also contains a number of dependencies that I do not have on my computer.
+Extremely portable classic McEliece implementation. `ref` contains the reference implementation, where as `vec` contains optimized (though still portable) implementation.
 
-This project adapts from the reference implementations: it removes some idiosyncrasy associated with "submitting to NIST" and some dependencies that are not readily available on a fresh MacOS environment.
+# Getting started
+Start by running the correctness tests and speed tests:
 
-# What's next
-- [ ] Incorporate code from `vec`, `sse`, and `avx2` implementations
+```bash
+make tests speed
+```
 
-# Notes on performance
-According to the [official website](https://classic.mceliece.org/impl.html), McEliece's encapsulation and decapsulation times (measured in Haswell CPU cycles) are as follows:
+# Performance
+Performance measured on Apple Silicon M1 using CPU clock.
 
-|variant|keygen|enc|dec|
-|:--|:--|:--|:--|
-|348864f|37721176|34748|132554|
-|348864|53245048|34256|132541|
-|460896f|122281345|77010|266197|
-|460896|173340957|75487|266055|
-|6688128f|288804317|128778|315443|
-|6688128|461261728|128984|315809|
-|6960119f|247469509|135686|290003|
-|6960119|334125327|138522|290075|
-|8192128f|316124280|146142|314719|
-|8192128|483327051|146800|314483|
-
-The ratio between decapsulation cost and encapsulation cost ranges between 3.48 and 1.98.
-
-**However, the benchmark data on my laptop have very different shape:**
-
-| Binary Name                       | Keypair Time | Encap Time | Decap Time |
-|:--|--:|--:|--:|
-| test_mceliece348864_speed         | 1571116      | 459        | 464351     |
-| test_mceliece348864f_speed        | 778952       | 459        | 465089     |
-| test_mceliece460896_speed         | 3717257      | 781        | 1120455    |
-| test_mceliece460896f_speed        | 2209614      | 715        | 1118472    |
-| test_mceliece6688128_speed        | 10669633     | 1623       | 2153795    |
-| test_mceliece6688128f_speed       | 4116968      | 1558       | 2154290    |
-| test_mceliece6960119_speed        | 10012902     | 15264      | 2086029    |
-| test_mceliece6960119f_speed       | 3941851      | 15631      | 2084772    |
-| test_mceliece8192128_speed        | 14350639     | 1498       | 2636440    |
-| test_mceliece8192128f_speed       | 4503919      | 1556       | 2637498    |
-
+|name|keygen|enc|dec|
+|---|---:|---:|---:|
+|mceliece348864|1674503|461|464822|
+|mceliece348864vec|1105284|271|2381|
+|mceliece348864f|785128|480|464367|
+|mceliece348864fvec|693990|243|2378|
+|mceliece460896|5308671|735|1118850|
+|mceliece460896vec|3317765|536|6589|
+|mceliece460896f|2240253|734|1119706|
+|mceliece460896fvec|2177109|569|6596|
+|mceliece6688128|10724534|1588|2152209|
+|mceliece6688128vec|6174239|878|7467|
+|mceliece6688128f|4164644|1653|2152457|
+|mceliece6688128fvec|4209949|820|7475|
+|mceliece6960119|12770256|15435|2084527|
+|mceliece6960119vec|5479011|727|7294|
+|mceliece6960119f|3957459|15525|2083846|
+|mceliece6960119fvec|3901054|710|7264|
+|mceliece8192128|10033974|1558|2635988|
+|mceliece8192128vec|7793241|888|7464|
+|mceliece8192128f|4493157|1438|2635243|
+|mceliece8192128fvec|4240067|920|7452|
