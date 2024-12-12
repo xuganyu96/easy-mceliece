@@ -30,7 +30,7 @@ static inline crypto_uint32 uint32_is_equal_declassify(uint32_t t, uint32_t u) {
 }
 
 /* output: e, an error vector of weight t */
-static void gen_e(unsigned char *e) {
+void gen_e(unsigned char *e) {
   int i, j, eq, count;
 
   union {
@@ -100,8 +100,7 @@ static void gen_e(unsigned char *e) {
 
 /* input: public key pk, error vector e */
 /* output: syndrome s */
-static void syndrome(unsigned char *s, const unsigned char *pk,
-                     unsigned char *e) {
+void syndrome(unsigned char *s, const unsigned char *pk, unsigned char *e) {
   unsigned char e_tmp[SYS_N / 8];
 
   uint64_t b;
@@ -149,17 +148,5 @@ static void syndrome(unsigned char *s, const unsigned char *pk,
 /* output: error vector e, syndrome s */
 void encrypt(unsigned char *s, const unsigned char *pk, unsigned char *e) {
   gen_e(e);
-
-#ifdef KAT
-  {
-    int k;
-    printf("encrypt e: positions");
-    for (k = 0; k < SYS_N; ++k)
-      if (e[k / 8] & (1 << (k & 7)))
-        printf(" %d", k);
-    printf("\n");
-  }
-#endif
-
   syndrome(s, pk, e);
 }
