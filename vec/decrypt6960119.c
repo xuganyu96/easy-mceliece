@@ -167,17 +167,32 @@ int decrypt(unsigned char *e, const unsigned char *sk, const unsigned char *s) {
   postprocess(e, error);
 
   check_weight = weight_check(e, error);
-
-#ifdef KAT
-  {
-    int k;
-    printf("decrypt e: positions");
-    for (k = 0; k < SYS_N; ++k)
-      if (e[k / 8] & (1 << (k & 7)))
-        printf(" %d", k);
-    printf("\n");
-  }
-#endif
-
   return 1 - (check_synd & check_weight);
+}
+
+void cpa_decrypt(unsigned char *e, const unsigned char *sk,
+                 const unsigned char *s) {
+  int i;
+  vec inv[128][GFBITS];
+  vec scaled[128][GFBITS];
+  vec eval[128][GFBITS];
+  vec error[128];
+  vec s_priv[4][GFBITS];
+  vec locator[2][GFBITS];
+  vec recv[128];
+  vec allone;
+
+  preprocess(recv, s);
+  benes(recv, sk + IRR_BYTES, 1);
+  scaling(scaled, inv, sk, recv);
+  fft_tr(s_priv, scaled);
+  bm(locator, s_priv);
+  fft(eval, locator);
+  allone = vec_setbits(1);
+  for (i = 0; i < 128; i++) {
+    error[i] = vec_or_reduce(eval[i]);
+    error[i] ^= allone;
+  }
+  benes(error, sk + IRR_BYTES, 0);
+  postprocess(e, error);
 }

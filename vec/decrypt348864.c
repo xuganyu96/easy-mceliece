@@ -168,16 +168,35 @@ int decrypt(unsigned char *e, const unsigned char *sk, const unsigned char *s) {
 
   check_weight = weight_check(e, error);
 
-#ifdef KAT
-  {
-    int k;
-    printf("decrypt e: positions");
-    for (k = 0; k < SYS_N; ++k)
-      if (e[k / 8] & (1 << (k & 7)))
-        printf(" %d", k);
-    printf("\n");
-  }
-#endif
-
   return 1 - (check_synd & check_weight);
+}
+
+void cpa_decrypt(unsigned char *e, const unsigned char *sk,
+                 const unsigned char *s) {
+  int i;
+  vec inv[64][GFBITS];
+  vec scaled[64][GFBITS];
+  vec eval[64][GFBITS];
+  vec error[64];
+  vec s_priv[2][GFBITS];
+  vec s_priv_cmp[2][GFBITS];
+  vec locator[GFBITS];
+  vec recv[64];
+  vec allone;
+
+  // Berlekamp decoder
+  preprocess(recv, s);
+  benes(recv, sk + IRR_BYTES, 1);
+  scaling(scaled, inv, sk, recv);
+  fft_tr(s_priv, scaled);
+  bm(locator, s_priv);
+  fft(eval, locator);
+  allone = vec_setbits(1);
+  for (i = 0; i < 64; i++) {
+    error[i] = vec_or_reduce(eval[i]);
+    error[i] ^= allone;
+  }
+
+  benes(error, sk + IRR_BYTES, 0);
+  postprocess(e, error);
 }

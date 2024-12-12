@@ -1,7 +1,9 @@
 - [ ] `vec` is currenly terribly ugly
 
 # Easy McEliece
-Extremely portable classic McEliece implementation. `ref` contains the reference implementation, where as `vec` contains optimized (though still portable) implementation.
+Extremely portable classic McEliece implementation with many ergonomic improvements that expose the underlying routines.
+
+`ref` contains the reference implementation, where as `vec` contains optimized (though still portable) implementation.
 
 # Getting started
 Start by running the correctness tests and speed tests:
