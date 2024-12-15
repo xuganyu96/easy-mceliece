@@ -53,3 +53,6 @@ dkms.conf
 target/
 # MacOS
 .DS_Store
+
+# language server
+.clangd

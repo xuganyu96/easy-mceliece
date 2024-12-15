@@ -9,7 +9,8 @@ Extremely portable classic McEliece implementation with many ergonomic improveme
 Start by running the correctness tests and speed tests:
 
 ```bash
-make tests speed
+make tests
+make speed speed_rounds=1000
 ```
 
 # Performance

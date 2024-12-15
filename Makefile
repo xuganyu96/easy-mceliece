@@ -43,53 +43,65 @@ EASYMCELIECESOURCES = ref/benes.c \
 					  ref/util.c
 
 EASYMCELIECEVECSOURCES = vec/benes.c \
-	vec/bm.c \
-	vec/controlbits.c \
-	vec/decrypt.c \
-	vec/encrypt.c \
-	vec/fft.c \
-	vec/fft_tr.c \
-	vec/gf.c \
-	vec/keccak.c \
-	vec/operations.c \
-	vec/pk_gen.c \
-	vec/randombytes.c \
-	vec/sk_gen.c \
-	vec/vec.c
+						 vec/bm.c \
+						 vec/controlbits.c \
+						 vec/decrypt.c \
+						 vec/encrypt.c \
+						 vec/fft.c \
+						 vec/fft_tr.c \
+						 vec/gf.c \
+						 vec/keccak.c \
+						 vec/operations.c \
+						 vec/pk_gen.c \
+						 vec/randombytes.c \
+						 vec/sk_gen.c \
+						 vec/vec.c
 
 EASYMCELIECEVECHEADERS = vec/api.h \
-	vec/benes.h \
-	vec/bm.h \
-	vec/controlbits.h \
-	vec/crypto_declassify.h \
-	vec/crypto_hash.h \
-	vec/crypto_int16.h \
-	vec/crypto_int32.h \
-	vec/crypto_kem.h \
-	vec/crypto_uint16.h \
-	vec/crypto_uint32.h \
-	vec/crypto_uint64.h \
-	vec/decrypt.h \
-	vec/encrypt.h \
-	vec/fft.h \
-	vec/fft_tr.h \
-	vec/gf.h \
-	vec/int32_sort.h \
-	vec/keccak.h \
-	vec/operations.h \
-	vec/params.h \
-	vec/pk_gen.h \
-	vec/randombytes.h \
-	vec/sk_gen.h \
-	vec/transpose.h \
-	vec/uint16_sort.h \
-	vec/uint64_sort.h \
-	vec/util.h \
-	vec/vec.h
+						 vec/benes.h \
+						 vec/bm.h \
+						 vec/controlbits.h \
+						 vec/crypto_declassify.h \
+						 vec/crypto_hash.h \
+						 vec/crypto_int16.h \
+						 vec/crypto_int32.h \
+						 vec/crypto_kem.h \
+						 vec/crypto_uint16.h \
+						 vec/crypto_uint32.h \
+						 vec/crypto_uint64.h \
+						 vec/decrypt.h \
+						 vec/encrypt.h \
+						 vec/fft.h \
+						 vec/fft_tr.h \
+						 vec/gf.h \
+						 vec/int32_sort.h \
+						 vec/keccak.h \
+						 vec/operations.h \
+						 vec/params.h \
+						 vec/pk_gen.h \
+						 vec/randombytes.h \
+						 vec/sk_gen.h \
+						 vec/transpose.h \
+						 vec/uint16_sort.h \
+						 vec/uint64_sort.h \
+						 vec/util.h \
+						 vec/vec.h
 
-CFLAGS += -O3
+SPEEDSOURCES = tests/stopwatch.c
+SPEEDHEADERS = tests/stopwatch.h
 
-.PHONY: tests test_ref test_vec speed speed_ref speed_vec
+speed_rounds := 10
+
+CFLAGS += -O3 -DSPEED_ROUNDS=$(speed_rounds)
+
+.PHONY: main tests test_ref test_vec speed speed_ref speed_vec
+
+main: target/main
+	target/main
+
+target/main: tests/stopwatch.h tests/stopwatch.c main.c
+	$(CC) $(CFLAGS) $(LDFLAGS) tests/stopwatch.c main.c -o $@
+
 
 tests: test_ref test_vec
 
@@ -183,35 +195,35 @@ speed_vec: \
 	target/test_mceliece8192128vec_speed
 	target/test_mceliece8192128fvec_speed
 
-target/test_mceliece348864_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864_speed
+target/test_mceliece348864_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864_speed
 
-target/test_mceliece348864f_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 -DFASTKEYGEN $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864f_speed
+target/test_mceliece348864f_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 -DFASTKEYGEN $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864f_speed
 
-target/test_mceliece460896_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896_speed
+target/test_mceliece460896_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896_speed
 
-target/test_mceliece460896f_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 -DFASTKEYGEN $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896f_speed
+target/test_mceliece460896f_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 -DFASTKEYGEN $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896f_speed
 
-target/test_mceliece6688128_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128_speed
+target/test_mceliece6688128_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128_speed
 
-target/test_mceliece6688128f_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 -DFASTKEYGEN $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128f_speed
+target/test_mceliece6688128f_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 -DFASTKEYGEN $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128f_speed
 
-target/test_mceliece6960119_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119_speed
+target/test_mceliece6960119_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119_speed
 
-target/test_mceliece6960119f_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 -DFASTKEYGEN $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119f_speed
+target/test_mceliece6960119f_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 -DFASTKEYGEN $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119f_speed
 
-target/test_mceliece8192128_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128_speed
+target/test_mceliece8192128_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128_speed
 
-target/test_mceliece8192128f_speed: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 -DFASTKEYGEN $(EASYMCELIECESOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128f_speed
+target/test_mceliece8192128f_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 -DFASTKEYGEN $(EASYMCELIECESOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128f_speed
 
 target/test_mceliece348864_correctness: $(EASYMCELIECESOURCES) $(EASYMCELIECEHEADERS) ./tests/test_kem_correctness.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 $(EASYMCELIECESOURCES) ./tests/test_kem_correctness.c -o target/test_mceliece348864_correctness
@@ -244,35 +256,35 @@ target/test_mceliece8192128f_correctness: $(EASYMCELIECESOURCES) $(EASYMCELIECEH
 	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 -DFASTKEYGEN $(EASYMCELIECESOURCES) ./tests/test_kem_correctness.c -o target/test_mceliece8192128f_correctness
 
 # ----- vectorized implementation -----
-target/test_mceliece348864vec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864vec_speed
+target/test_mceliece348864vec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864vec_speed
 
-target/test_mceliece348864fvec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864fvec_speed
+target/test_mceliece348864fvec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece348864fvec_speed
 
-target/test_mceliece460896vec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896vec_speed
+target/test_mceliece460896vec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896vec_speed
 
-target/test_mceliece460896fvec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896fvec_speed
+target/test_mceliece460896fvec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=4608 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece460896fvec_speed
 
-target/test_mceliece6688128vec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128vec_speed
+target/test_mceliece6688128vec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128vec_speed
 
-target/test_mceliece6688128fvec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128fvec_speed
+target/test_mceliece6688128fvec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6688 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6688128fvec_speed
 
-target/test_mceliece6960119vec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119vec_speed
+target/test_mceliece6960119vec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119vec_speed
 
-target/test_mceliece6960119fvec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119fvec_speed
+target/test_mceliece6960119fvec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=6960 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece6960119fvec_speed
 
-target/test_mceliece8192128vec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128vec_speed
+target/test_mceliece8192128vec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128vec_speed
 
-target/test_mceliece8192128fvec_speed: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128fvec_speed
+target/test_mceliece8192128fvec_speed: $(SPEEDSOURCES) $(SPEEDHEADERS) $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_speed.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=8192 -DFASTKEYGEN $(EASYMCELIECEVECSOURCES) $(SPEEDSOURCES) ./tests/test_kem_speed.c -o target/test_mceliece8192128fvec_speed
 
 target/test_mceliece348864vec_correctness: $(EASYMCELIECEVECSOURCES) $(EASYMCELIECEVECHEADERS) ./tests/test_kem_correctness.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -DMCELIECE_N=3488 $(EASYMCELIECEVECSOURCES) ./tests/test_kem_correctness.c -o target/test_mceliece348864vec_correctness

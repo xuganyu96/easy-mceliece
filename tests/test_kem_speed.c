@@ -3,6 +3,7 @@
  */
 #include "../vec/api.h"
 #include "../vec/crypto_kem.h"
+#include "stopwatch.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,26 +45,16 @@ static int benchmark_kem_dec() {
   crypto_kem_keypair(pk, sk);
   crypto_kem_enc(ct, ss, pk);
 
-  uint64_t batch_times[BATCH_COUNT];
+  stopwatch_t stopwatch;
+  stopwatch_init(&stopwatch);
+  stopwatch_lap(&stopwatch, get_clock_cpu);
 
-  for (size_t batch = 0; batch < BATCH_COUNT; batch++) {
-    uint64_t start = get_clock_cpu();
-    for (int call = 0; call < BATCH_SIZE; call++) {
-      crypto_kem_dec(ss_cmp, ct, sk);
-    }
-    uint64_t total_dur = get_clock_cpu() - start;
-
-    uint64_t overhead_start = get_clock_cpu();
-    for (int call = 0; call < BATCH_SIZE; call++)
-      ;
-    uint64_t overhead_dur = get_clock_cpu() - overhead_start;
-
-    batch_times[batch] = (total_dur - overhead_dur) / BATCH_SIZE;
+  for (int i = 0; i < STOPWATCH_CAPACITY; i++) {
+    crypto_kem_dec(ss_cmp, ct, sk);
+    stopwatch_lap(&stopwatch, get_clock_cpu);
   }
 
-  // compute the medium
-  qsort(batch_times, BATCH_COUNT, sizeof(uint64_t), uint64_t_cmp);
-  printf("Medium %12s time: %16llu\n", "decryption", batch_times[MEDIUM_LOC]);
+  stopwatch_pretty_statistics("KEM decap", &stopwatch);
 
   return 0;
 }
@@ -75,26 +66,16 @@ static int benchmark_kem_enc() {
   uint8_t ss[CRYPTO_BYTES];
   crypto_kem_keypair(pk, sk);
 
-  uint64_t batch_times[BATCH_COUNT];
+  stopwatch_t stopwatch;
+  stopwatch_init(&stopwatch);
+  stopwatch_lap(&stopwatch, get_clock_cpu);
 
-  for (size_t batch = 0; batch < BATCH_COUNT; batch++) {
-    uint64_t start = get_clock_cpu();
-    for (int call = 0; call < BATCH_SIZE; call++) {
-      crypto_kem_enc(ct, ss, pk);
-    }
-    uint64_t total_dur = get_clock_cpu() - start;
-
-    uint64_t overhead_start = get_clock_cpu();
-    for (int call = 0; call < BATCH_SIZE; call++)
-      ;
-    uint64_t overhead_dur = get_clock_cpu() - overhead_start;
-
-    batch_times[batch] = (total_dur - overhead_dur) / BATCH_SIZE;
+  for (int i = 0; i < STOPWATCH_CAPACITY; i++) {
+    crypto_kem_enc(ct, ss, pk);
+    stopwatch_lap(&stopwatch, get_clock_cpu);
   }
 
-  // compute the medium
-  qsort(batch_times, BATCH_COUNT, sizeof(uint64_t), uint64_t_cmp);
-  printf("Medium %12s time: %16llu\n", "encryption", batch_times[MEDIUM_LOC]);
+  stopwatch_pretty_statistics("KEM encap", &stopwatch);
 
   return 0;
 }
@@ -102,26 +83,16 @@ static int benchmark_kem_enc() {
 static int benchmark_kem_keypair() {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
-  uint64_t batch_times[BATCH_COUNT];
+  stopwatch_t stopwatch;
+  stopwatch_init(&stopwatch);
+  stopwatch_lap(&stopwatch, get_clock_cpu);
 
-  for (size_t batch = 0; batch < BATCH_COUNT; batch++) {
-    uint64_t start = get_clock_cpu();
-    for (int call = 0; call < BATCH_SIZE; call++) {
-      crypto_kem_keypair(pk, sk);
-    }
-    uint64_t total_dur = get_clock_cpu() - start;
-
-    uint64_t overhead_start = get_clock_cpu();
-    for (int call = 0; call < BATCH_SIZE; call++)
-      ;
-    uint64_t overhead_dur = get_clock_cpu() - overhead_start;
-
-    batch_times[batch] = (total_dur - overhead_dur) / BATCH_SIZE;
+  for (int i = 0; i < STOPWATCH_CAPACITY; i++) {
+    crypto_kem_keypair(pk, sk);
+    stopwatch_lap(&stopwatch, get_clock_cpu);
   }
 
-  // compute the medium
-  qsort(batch_times, BATCH_COUNT, sizeof(uint64_t), uint64_t_cmp);
-  printf("Medium %12s time: %16llu\n", "keypair", batch_times[MEDIUM_LOC]);
+  stopwatch_pretty_statistics("KEM keypair", &stopwatch);
 
   return 0;
 }
