@@ -1,3 +1,4 @@
+TODO: expose random seeds so external callers can pass them in
 - [ ] `vec` is currenly terribly ugly
 
 # Easy McEliece
