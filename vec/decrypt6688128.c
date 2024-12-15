@@ -143,7 +143,7 @@ int decrypt(unsigned char *e, const unsigned char *sk, const unsigned char *s) {
   benes(recv, sk + IRR_BYTES, 1);
   scaling(scaled, inv, sk, recv);
   fft_tr(s_priv, scaled);
-  bm(locator, s_priv);
+  bm6688128(locator, s_priv);
 
   fft(eval, locator);
 
@@ -190,7 +190,7 @@ void cpa_decrypt(unsigned char *e, const unsigned char *sk,
   benes(recv, sk + IRR_BYTES, 1);
   scaling(scaled, inv, sk, recv);
   fft_tr(s_priv, scaled);
-  bm(locator, s_priv);
+  bm6688128(locator, s_priv);
   fft(eval, locator);
   allone = vec_setbits(1);
   for (i = 0; i < 128; i++) {
