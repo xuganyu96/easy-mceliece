@@ -7,7 +7,6 @@
 #include "crypto_uint16.h"
 #include "gf.h"
 #include "params.h"
-#include "util.h"
 
 static inline crypto_uint16 gf_is_zero_declassify(gf t) {
   crypto_uint16 mask = crypto_uint16_zero_mask(t);

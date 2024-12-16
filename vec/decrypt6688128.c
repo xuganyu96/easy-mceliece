@@ -1,7 +1,6 @@
 /*
   This file is for Niederreiter decryption
 */
-
 #include "benes.h"
 #include "bm.h"
 #include "decrypt.h"
@@ -21,7 +20,7 @@ static void scaling(vec out[][GFBITS], vec inv[][GFBITS],
 
   //
 
-  irr_load(irr_int, sk);
+  irr_load_gf13(irr_int, sk);
 
   fft(eval, irr_int);
 

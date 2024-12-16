@@ -20,7 +20,7 @@ static void scaling(vec out[][GFBITS], vec inv[][GFBITS],
 
   //
 
-  irr_load(irr_int, sk);
+  irr_load_gf12(irr_int, sk);
 
   fft(eval, irr_int);
 
@@ -179,7 +179,6 @@ void cpa_decrypt(unsigned char *e, const unsigned char *sk,
   vec eval[64][GFBITS];
   vec error[64];
   vec s_priv[2][GFBITS];
-  vec s_priv_cmp[2][GFBITS];
   vec locator[GFBITS];
   vec recv[64];
   vec allone;

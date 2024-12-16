@@ -21,7 +21,7 @@ static void scaling(vec out[][GFBITS], vec inv[][GFBITS],
 
   //
 
-  irr_load(irr_int, sk);
+  irr_load_gf13(irr_int, sk);
 
   fft(eval, irr_int);
 

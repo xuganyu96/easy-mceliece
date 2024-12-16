@@ -178,7 +178,7 @@ int pk_gen(unsigned char *pk, const unsigned char *irr, uint32_t *perm,
 
   // compute the inverses
 
-  irr_load(irr_int, irr);
+  irr_load_gf13(irr_int, irr);
 
   fft(eval, irr_int);
 
