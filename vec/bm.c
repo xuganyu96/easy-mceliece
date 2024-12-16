@@ -4,6 +4,11 @@
 #include "gf.h"
 #include "vec.h"
 
+/**
+ * Only used in mceliece348864(f) using GF(2^12)
+ *
+ * Returns an all-one mask if the input is 0; else return an all-zero mask
+ */
 static inline uint64_t mask_nonzero_gf12(gf a) {
   uint64_t ret = a;
   ret -= 1;
@@ -12,6 +17,11 @@ static inline uint64_t mask_nonzero_gf12(gf a) {
   return ret;
 }
 
+/**
+ * Used in mcelice460896(f)/668812(f)/6960119(f)/8192128(f) using GF(2^13)
+ *
+ * Returns an all-one mask if the input is 0; else return an all-zero mask
+ */
 static inline uint16_t mask_nonzero_gf13(gf a) {
   uint32_t ret = a;
 
@@ -22,6 +32,9 @@ static inline uint16_t mask_nonzero_gf13(gf a) {
   return ret;
 }
 
+/**
+ * Return an all-one mask if a <= b, else return an all-one mask
+ */
 static inline uint16_t mask_leq(uint16_t a, uint16_t b) {
   uint32_t a_tmp = a;
   uint32_t b_tmp = b;
