@@ -33,7 +33,6 @@ timestamp_t laps_percentile(const laps_t *laps, double percentile);
 timestamp_t laps_medium(const laps_t *laps);
 
 timestamp_t get_cpu_clock();
-timestamp_t get_monotonic_ns();
 timestamp_t get_monotonic_us();
 
 #endif

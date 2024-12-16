@@ -39,7 +39,7 @@ static inline uint64_t gf_mul2(gf a, gf b0, gf b1) {
   return tmp & 0x00000FFF00000FFF;
 }
 #elif (MCELIECE_N == 4608)
-// TODO: 460896's implementation of gf_mul2 is elsewhere
+static inline uint64_t gf_mul2(gf a, gf b0, gf b1) { return 0; }
 #elif (MCELIECE_N == 6688)
 static inline uint64_t gf_mul2(gf a, gf b0, gf b1) {
   int i;
@@ -63,7 +63,7 @@ static inline uint64_t gf_mul2(gf a, gf b0, gf b1) {
   return tmp & 0x00001FFF00001FFF;
 }
 #elif (MCELIECE_N == 6960)
-// TODO: 6960119's implementation of gf_mul2 is elsewhere
+static inline uint64_t gf_mul2(gf a, gf b0, gf b1) { return 0; }
 #elif (MCELIECE_N == 8192)
 static inline uint64_t gf_mul2(gf a, gf b0, gf b1) {
   int i;

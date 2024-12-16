@@ -7,6 +7,8 @@
 #include <mach/mach_time.h>
 #endif
 
+static struct timespec rt_clock;
+
 /**
  * Estimate a percentile for the given array
  */
@@ -132,12 +134,7 @@ timestamp_t get_cpu_clock() {
 #endif
 }
 
-timestamp_t get_monotonic_ns() {
-  // TODO:
-  return 0;
-}
-
 timestamp_t get_monotonic_us() {
-  // TODO:
-  return 0;
+  clock_gettime(CLOCK_MONOTONIC, &rt_clock);
+  return rt_clock.tv_sec * 1000000 + rt_clock.tv_nsec / 1000;
 }

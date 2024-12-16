@@ -11,10 +11,10 @@
 #include "params.h"
 #include "vec.h"
 
-#if (MCELIECE_N == 3488)
-void bm(vec *, vec[][GFBITS]);
-#else
-void bm(vec out[][GFBITS], vec in[][GFBITS]);
-#endif
+void bm348864(vec *out, vec in[][GFBITS]);
+void bm460896(vec out[][GFBITS], vec in[][GFBITS]);
+void bm6688128(vec out[][GFBITS], vec in[][GFBITS]);
+void bm6960119(vec out[][GFBITS], vec in[][GFBITS]);
+void bm8192128(vec out[][GFBITS], vec in[][GFBITS]);
 
 #endif
