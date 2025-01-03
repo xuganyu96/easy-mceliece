@@ -1,12 +1,12 @@
 TODO:
 - [ ] The following *modules* do not have good abstractions
-    - [ ] `bm` (Berlekamp-Massey decoder)
+    - [x] `bm` (Berlekamp-Massey decoder)
     - [ ] `fft`/`fft-tr` (FFT and transpose FFT)
     - [ ] `decrypt`
     - [ ] `encrypt`
     - [ ] `gf`
     - [ ] `pk_gen`
-    - [ ] `util`
+    - [x] `util`
 
 # Easy McEliece
 Extremely portable classic McEliece implementation with many ergonomic improvements that expose the underlying routines.
