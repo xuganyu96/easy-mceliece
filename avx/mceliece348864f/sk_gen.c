@@ -11,8 +11,8 @@
 #include "util.h"
 #include "vec.h"
 #include "gf.h"
-#include "crypto_declassify.h"
-#include "crypto_uint16.h"
+#include "subroutines/crypto_declassify.h"
+#include "subroutines/crypto_uint16.h"
 
 static inline crypto_uint16 gf_is_zero_declassify(gf t)
 {

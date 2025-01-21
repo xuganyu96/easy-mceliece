@@ -10,8 +10,8 @@
 #include "randombytes.h"
 
 #include <stdint.h>
-#include "crypto_declassify.h"
-#include "crypto_uint32.h"
+#include "subroutines/crypto_declassify.h"
+#include "subroutines/crypto_uint32.h"
 
 static inline crypto_uint32 uint32_is_equal_declassify(uint32_t t,uint32_t u)
 {

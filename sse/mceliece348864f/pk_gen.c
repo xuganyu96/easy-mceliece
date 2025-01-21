@@ -10,8 +10,8 @@
 #include "params.h"
 #include "util.h"
 #include "fft.h"
-#include "crypto_declassify.h"
-#include "crypto_uint64.h"
+#include "subroutines/crypto_declassify.h"
+#include "subroutines/crypto_uint64.h"
 
 static crypto_uint64 uint64_is_equal_declassify(uint64_t t,uint64_t u)
 {
