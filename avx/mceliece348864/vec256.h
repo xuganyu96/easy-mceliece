@@ -5,11 +5,6 @@
 
 #ifndef VEC256_H
 #define VEC256_H
-#define vec256_ama_asm CRYPTO_NAMESPACE(vec256_ama_asm)
-#define vec256_inv CRYPTO_NAMESPACE(vec256_inv)
-#define vec256_maa_asm CRYPTO_NAMESPACE(vec256_maa_asm)
-#define vec256_mul_asm CRYPTO_NAMESPACE(vec256_mul_asm)
-#define vec256_sq CRYPTO_NAMESPACE(vec256_sq)
 
 #include "vec128.h"
 
