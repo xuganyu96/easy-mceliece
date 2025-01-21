@@ -6,6 +6,8 @@
 #ifndef BM_H
 #define BM_H
 
+#include "gf.h"
+
 void bm(gf *, gf *);
 
 #endif
