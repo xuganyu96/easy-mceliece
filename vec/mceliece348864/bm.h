@@ -11,7 +11,6 @@
 #include "params.h"
 #include "vec.h"
 
-void bm(vec *, vec [][ GFBITS ]);
+void bm(vec *, vec[][GFBITS]);
 
 #endif
-

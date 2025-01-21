@@ -20,36 +20,33 @@ gf gf_inv(gf);
 void GF_mul(gf *, gf *, gf *);
 
 /* 2 field multiplications */
-static inline uint64_t gf_mul2(gf a, gf b0, gf b1)
-{
-	int i;
+static inline uint64_t gf_mul2(gf a, gf b0, gf b1) {
+  int i;
 
-	uint64_t tmp=0;
-	uint64_t t0;
-	uint64_t t1;
-	uint64_t t;
-	uint64_t mask = 0x0000000100000001;
+  uint64_t tmp = 0;
+  uint64_t t0;
+  uint64_t t1;
+  uint64_t t;
+  uint64_t mask = 0x0000000100000001;
 
-	t0 = a;
-	t1 = b1;
-	t1 = (t1 << 32) | b0;
-	
-	for (i = 0; i < GFBITS; i++)
-	{
-		tmp ^= t0 * (t1 & mask);
-		mask += mask;
-	}
+  t0 = a;
+  t1 = b1;
+  t1 = (t1 << 32) | b0;
 
-	//
+  for (i = 0; i < GFBITS; i++) {
+    tmp ^= t0 * (t1 & mask);
+    mask += mask;
+  }
 
-	t = tmp & 0x007FC000007FC000;
-	tmp ^= (t >> 9) ^ (t >> 12);
+  //
 
-	t = tmp & 0x0000300000003000;
-	tmp ^= (t >> 9) ^ (t >> 12);
+  t = tmp & 0x007FC000007FC000;
+  tmp ^= (t >> 9) ^ (t >> 12);
 
-	return tmp & 0x00000FFF00000FFF;
+  t = tmp & 0x0000300000003000;
+  tmp ^= (t >> 9) ^ (t >> 12);
+
+  return tmp & 0x00000FFF00000FFF;
 }
 
 #endif
-

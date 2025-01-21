@@ -11,4 +11,3 @@ void apply_benes(unsigned char *, const unsigned char *, int);
 void support_gen(gf *, const unsigned char *);
 
 #endif
-

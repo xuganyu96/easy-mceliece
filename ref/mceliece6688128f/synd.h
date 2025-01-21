@@ -10,4 +10,3 @@
 void synd(gf *, gf *, gf *, unsigned char *);
 
 #endif
-

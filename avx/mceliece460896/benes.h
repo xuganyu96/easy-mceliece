@@ -7,8 +7,7 @@
 
 #include "vec128.h"
 
-void load_bits(vec128 [][32], const unsigned char *);
-void benes(vec128 *, vec128 [][32], int);
+void load_bits(vec128[][32], const unsigned char *);
+void benes(vec128 *, vec128[][32], int);
 
 #endif
-

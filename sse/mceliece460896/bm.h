@@ -9,7 +9,6 @@
 #include "params.h"
 #include "vec128.h"
 
-void bm(vec128 *, vec128 [][ GFBITS ]);
+void bm(vec128 *, vec128[][GFBITS]);
 
 #endif
-

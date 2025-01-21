@@ -11,4 +11,3 @@
 void bm(uint64_t *, vec128 *);
 
 #endif
-

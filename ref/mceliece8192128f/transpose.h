@@ -10,4 +10,3 @@
 void transpose_64x64(uint64_t *, uint64_t *);
 
 #endif
-

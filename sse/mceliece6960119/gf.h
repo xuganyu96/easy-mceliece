@@ -17,4 +17,3 @@ gf gf_inv(gf);
 void GF_mul(gf *, gf *, gf *);
 
 #endif
-

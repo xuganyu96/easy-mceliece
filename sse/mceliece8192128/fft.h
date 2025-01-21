@@ -6,11 +6,10 @@
 #ifndef FFT_H
 #define FFT_H
 
-#include <stdint.h>
 #include "params.h"
 #include "vec128.h"
+#include <stdint.h>
 
-void fft(vec128 [][GFBITS], vec128 *);
+void fft(vec128[][GFBITS], vec128 *);
 
 #endif
-

@@ -9,7 +9,6 @@
 #include "params.h"
 #include "vec.h"
 
-void bm(vec [][GFBITS], vec [][ GFBITS ]);
+void bm(vec[][GFBITS], vec[][GFBITS]);
 
 #endif
-

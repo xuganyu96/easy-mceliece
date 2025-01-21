@@ -8,4 +8,3 @@
 void encrypt(unsigned char *, const unsigned char *, unsigned char *);
 
 #endif
-

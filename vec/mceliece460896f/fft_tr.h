@@ -8,7 +8,6 @@
 #include "params.h"
 #include "vec.h"
 
-void fft_tr(vec [][GFBITS], vec [][ GFBITS ]);
+void fft_tr(vec[][GFBITS], vec[][GFBITS]);
 
 #endif
-

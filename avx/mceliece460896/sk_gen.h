@@ -13,4 +13,3 @@ int genpoly_gen(gf *, gf *);
 int perm_check(uint32_t *);
 
 #endif
-

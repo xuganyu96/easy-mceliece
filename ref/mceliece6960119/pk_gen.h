@@ -10,4 +10,3 @@
 int pk_gen(unsigned char *, unsigned char *, uint32_t *, int16_t *);
 
 #endif
-

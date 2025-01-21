@@ -11,7 +11,6 @@
 #include "params.h"
 #include "vec.h"
 
-void fft(vec [][GFBITS], vec [][GFBITS]);
+void fft(vec[][GFBITS], vec[][GFBITS]);
 
 #endif
-

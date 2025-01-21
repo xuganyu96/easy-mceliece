@@ -12,4 +12,3 @@
 void bm(vec128 *, vec256 *);
 
 #endif
-

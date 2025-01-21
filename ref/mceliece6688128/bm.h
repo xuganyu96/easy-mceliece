@@ -9,4 +9,3 @@
 void bm(gf *, gf *);
 
 #endif
-

@@ -11,4 +11,3 @@
 void benes(vec *, const unsigned char *, int);
 
 #endif
-
