@@ -23,4 +23,6 @@ Static libraries can be directed used as an input alongside other `.c` source fi
 $(CC) test_correctness.c libmceliece348864ref.a -o target/test_correctness
 ```
 
-Shared libraries need to specified at compile time 
+# Compile `avx/mceliece348864` on Apple Silicon
+There are some toolchain-specific assembly instructions that are not trivial to overcome using `arch -x86_64`. Instead we will have to use a real x86_64 machine with GNU toolchain to compile.
+
