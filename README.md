@@ -7,6 +7,13 @@ Classic McEliece's reference and optimized implementations with a few tweaks:
 - [ ] Compile into static and/or shared library
 - [ ] Perhaps maintain namespacing so that different variants can be run in the same program
 
+# Correctness and speed test:
+```
+chmod +x avx.sh ref_vec.sh
+./ref_vec.sh
+./avx.sh
+```
+
 # Compile `ref/mceliece348864` into a shared library
 `ref/mceliece348864` contains only C source code and header files, so compiling it into a static and/or shared library is relatively straightforward:
 - compile all `.c` files into `.o` object files
@@ -26,3 +33,8 @@ $(CC) test_correctness.c libmceliece348864ref.a -o target/test_correctness
 # Compile `avx/mceliece348864` on Apple Silicon
 There are some toolchain-specific assembly instructions that are not trivial to overcome using `arch -x86_64`. Instead we will have to use a real x86_64 machine with GNU toolchain to compile.
 
+# Clangd
+```yaml
+CompilerFlags:
+   Add: [-DARCH_REF, -DMCELIECE_N=3488] 
+```
