@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include "multiarch.h"
 
+#define TEST_ROUNDS 10
+
 int main(void) {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
@@ -10,17 +12,19 @@ int main(void) {
   uint8_t ss[CRYPTO_BYTES];
   uint8_t ss_cmp[CRYPTO_BYTES];
 
-  crypto_kem_keypair(pk, sk);
-  crypto_kem_enc(ct, ss, pk);
-  crypto_kem_dec(ss_cmp, ct, sk);
+  for (int i = 0; i < TEST_ROUNDS; i++) {
+    crypto_kem_keypair(pk, sk);
+    crypto_kem_enc(ct, ss, pk);
+    crypto_kem_dec(ss_cmp, ct, sk);
 
-  uint8_t diff = 0;
-  for (size_t i = 0; i < CRYPTO_BYTES; i++) {
-    diff |= ss[i] ^ ss_cmp[i];
-  }
-  if (diff) {
-    printf("Decapsulation failed\n");
-    exit(EXIT_FAILURE);
+    uint8_t diff = 0;
+    for (size_t i = 0; i < CRYPTO_BYTES; i++) {
+      diff |= ss[i] ^ ss_cmp[i];
+    }
+    if (diff) {
+      printf("Decapsulation failed\n");
+      exit(EXIT_FAILURE);
+    }
   }
   printf("Ok.\n");
   exit(EXIT_SUCCESS);
