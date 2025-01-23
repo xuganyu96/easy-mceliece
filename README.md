@@ -33,6 +33,40 @@ $(CC) test_correctness.c libmceliece348864ref.a -o target/test_correctness
 # Compile `avx/mceliece348864` on Apple Silicon
 There are some toolchain-specific assembly instructions that are not trivial to overcome using `arch -x86_64`. Instead we will have to use a real x86_64 machine with GNU toolchain to compile.
 
+On an Amazon Linux machine where:
+
+```bash
+$ gcc --version
+gcc (GCC) 11.4.1 20230605 (Red Hat 11.4.1-2)
+Copyright (C) 2021 Free Software Foundation, Inc.
+```
+
+Compiling a single `.S` file works just fine:
+
+```bash
+cd avx/mceliece348864
+gcc -c -o vec_mul_asm.o vec_mul_asm.S
+```
+
+In Makefile, it is possible to specify two rules for `.o` target:
+
+```Makefile
+SRC = source1.c source2.c source3.c
+ASM = asm1.s asm2.s asm3.s
+OBJ = $(SRC:.c=.o) $(SRC:.s=.o)
+
+# use .c as source if available
+%.o: %.c
+    $(CC) -c -o $@ $^
+
+# use .s as source if available
+%.o: %.s
+    $(CC) -c -o $@ $^
+
+libstatic.a: $(OBJ)
+    ar rcs $@ $^
+```
+
 # Clangd
 ```yaml
 CompilerFlags:
