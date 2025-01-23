@@ -6,8 +6,7 @@
 #if defined(__APPLE__)
 #include <mach/mach_time.h>
 #endif
-#include "avx/mceliece348864/api.h"
-#include "avx/mceliece348864/operations.h"
+#include "multiarch.h"
 
 #ifndef SPEED_ROUNDS
 #define SPEED_ROUNDS 10000

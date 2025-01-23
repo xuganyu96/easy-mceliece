@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "avx/mceliece348864f/api.h"
-#include "avx/mceliece348864f/operations.h"
+#include "multiarch.h"
 
 int main(void) {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];

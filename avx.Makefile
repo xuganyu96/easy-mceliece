@@ -89,4 +89,5 @@ target/test_speed: test_speed.c $(MCELIECE348864f_AVX_STATIC_LIB)
 
 clean:
 	$(RM) $(MCELIECE348864_AVX_OBJS)
+	$(RM) $(MCELIECE348864f_AVX_OBJS)
 	$(RM) target/*
