@@ -6,14 +6,8 @@
 #if defined(__APPLE__)
 #include <mach/mach_time.h>
 #endif
-#include "ref/mceliece348864/crypto_kem_mceliece348864.h"
-#define KEM_PUBLICKEYBYTES crypto_kem_mceliece348864_ref_PUBLICKEYBYTES
-#define KEM_SECRETKEYBYTES crypto_kem_mceliece348864_ref_SECRETKEYBYTES
-#define KEM_CIPHERTEXTBYTES crypto_kem_mceliece348864_ref_CIPHERTEXTBYTES
-#define KEM_BYTES crypto_kem_mceliece348864_ref_BYTES
-#define kem_keypair crypto_kem_mceliece348864_ref_keypair
-#define kem_enc crypto_kem_mceliece348864_ref_enc
-#define kem_dec crypto_kem_mceliece348864_ref_dec
+#include "avx/mceliece348864/api.h"
+#include "avx/mceliece348864/operations.h"
 
 #ifndef SPEED_ROUNDS
 #define SPEED_ROUNDS 10000
@@ -113,15 +107,15 @@ static void println_hexstr(uint8_t *bytes, size_t byteslen) {
 uint64_t timestamps[SPEED_ROUNDS + 1];
 
 static void benchmark_kem_enc(void) {
-  uint8_t pk[KEM_PUBLICKEYBYTES];
-  uint8_t sk[KEM_SECRETKEYBYTES];
-  uint8_t ct[KEM_CIPHERTEXTBYTES];
-  uint8_t ss[KEM_BYTES];
-  kem_keypair(pk, sk);
+  uint8_t pk[CRYPTO_PUBLICKEYBYTES];
+  uint8_t sk[CRYPTO_SECRETKEYBYTES];
+  uint8_t ct[CRYPTO_CIPHERTEXTBYTES];
+  uint8_t ss[CRYPTO_BYTES];
+  crypto_kem_keypair(pk, sk);
 
   timestamps[0] = get_clock_cpu();
   for (int i = 0; i < SPEED_ROUNDS; i++) {
-    kem_enc(ct, ss, pk);
+    crypto_kem_enc(ct, ss, pk);
     timestamps[i + 1] = get_clock_cpu();
   }
 
@@ -129,17 +123,17 @@ static void benchmark_kem_enc(void) {
 }
 
 static void benchmark_kem_dec(void) {
-  uint8_t pk[KEM_PUBLICKEYBYTES];
-  uint8_t sk[KEM_SECRETKEYBYTES];
-  uint8_t ct[KEM_CIPHERTEXTBYTES];
-  uint8_t ss[KEM_BYTES];
-  uint8_t ss_cmp[KEM_BYTES];
-  kem_keypair(pk, sk);
-  kem_enc(ct, ss, pk);
+  uint8_t pk[CRYPTO_PUBLICKEYBYTES];
+  uint8_t sk[CRYPTO_SECRETKEYBYTES];
+  uint8_t ct[CRYPTO_CIPHERTEXTBYTES];
+  uint8_t ss[CRYPTO_BYTES];
+  uint8_t ss_cmp[CRYPTO_BYTES];
+  crypto_kem_keypair(pk, sk);
+  crypto_kem_enc(ct, ss, pk);
 
   timestamps[0] = get_clock_cpu();
   for (int i = 0; i < SPEED_ROUNDS; i++) {
-    kem_dec(ss_cmp, ct, sk);
+    crypto_kem_dec(ss_cmp, ct, sk);
     timestamps[i + 1] = get_clock_cpu();
   }
 
@@ -147,12 +141,12 @@ static void benchmark_kem_dec(void) {
 }
 
 static void benchmark_kem_keypair(int keygen_rounds) {
-  uint8_t pk[KEM_PUBLICKEYBYTES];
-  uint8_t sk[KEM_SECRETKEYBYTES];
+  uint8_t pk[CRYPTO_PUBLICKEYBYTES];
+  uint8_t sk[CRYPTO_SECRETKEYBYTES];
 
   timestamps[0] = get_clock_cpu();
   for (int i = 0; i < keygen_rounds; i++) {
-    kem_keypair(pk, sk);
+    crypto_kem_keypair(pk, sk);
     timestamps[i + 1] = get_clock_cpu();
   }
 
