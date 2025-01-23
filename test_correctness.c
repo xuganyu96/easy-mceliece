@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "avx/mceliece348864/api.h"
-#include "avx/mceliece348864/operations.h"
+#include "avx/mceliece348864f/api.h"
+#include "avx/mceliece348864f/operations.h"
 
 int main(void) {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
