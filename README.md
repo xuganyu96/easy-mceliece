@@ -2,10 +2,31 @@
 Classic McEliece's reference and optimized implementations with a few tweaks:
 - external dependencies such as OpenSSL (for getting random bytes) and `libkeccak` (seriously what is this?) have been removed
 
-- [ ] Compile `ref` into a shared library
 - [ ] Take apart the original implementation so that the OW-CPA subroutines can be exposed
 - [ ] Compile into static and/or shared library
 - [ ] Perhaps maintain namespacing so that different variants can be run in the same program
+
+# Expose CPA encrypt/decrypt
+In the reference implementation, encryption and decryption are implemented non-modularly: `encrypt` calls `gen_e`, where as `decrypt` already contains the integrity check. I want to increase the modularity of the code by separating `gen_e` and integrity check from the one-way functions. I plan to add the following functions:
+
+```c
+// add to encrypt.h
+/**
+* sample an error vector whose Hamming weight is SYS_T
+*/
+void gen_e(uint8_t *e);
+/**
+* Compute the syndrome. Calling gen_e then cpa_encrypt is equivalent to calling
+* encrypt
+*/
+void cpa_encrypt(uint8_t *ct, const uint8_t *pk, const uint8_t *e);
+
+// add to decrypt.h
+/**
+* recover the error from the ciphertext/syndrome, do not do any re-encryption
+*/
+void cpa_decrypt(uint8_t *e, const uint8_t *sk, const uint8_t *ct);
+```
 
 # Correctness and speed test:
 ```
