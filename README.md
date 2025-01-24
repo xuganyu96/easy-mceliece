@@ -28,6 +28,21 @@ void cpa_encrypt(uint8_t *ct, const uint8_t *pk, const uint8_t *e);
 void cpa_decrypt(uint8_t *e, const uint8_t *sk, const uint8_t *ct);
 ```
 
+Numbers:
+
+|variant|KEM keygen|KEM encap|KEM decap|PKE decap with check|PKE decap w/o check|Sample error vec|Synd|
+|:--|:--|:--|:--|:--|:--|:--|:--|
+|mceliece348864_avx|26558116|21788|69316|65416|57668|5928|12792|
+|mceliece348864f_avx|15997631|21632|69342|65390|57668|5954|12948|
+|mceliece460896_avx|70771584|46072|134810|129376|112606|15886|24232|
+|mceliece460896f_avx|50915709|45708|135200|129376|112580|15808|23738|
+|mceliece6688128_avx|141487372|85358|158990|151788|134576|18967|53794|
+|mceliece6688128f_avx|107017352|85072|160004|153192|134966|24180|52286|
+|mceliece6960119_avx|170510756|85046|150904|143468|125944|18720|54912|
+|mceliece6960119f_avx|90518714|83720|150358|143026|125892|18720|53118|
+|mceliece8192128_avx|134076397|85306|158704|150150|133406|14222|60138|
+|mceliece8192128f_avx|111234227|85826|158314|149708|133042|14222|60762|
+
 # Correctness and speed test:
 ```
 chmod +x avx.sh ref_vec.sh
