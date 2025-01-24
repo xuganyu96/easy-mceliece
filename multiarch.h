@@ -82,33 +82,53 @@
 #elif defined(ARCH_AVX) && (MCELIECE_N == 3488) && !defined(FASTKEYGEN)
 #include "avx/mceliece348864/api.h"
 #include "avx/mceliece348864/operations.h"
+#include "avx/mceliece348864/decrypt.h"
+#include "avx/mceliece348864/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 3488) && defined(FASTKEYGEN)
 #include "avx/mceliece348864f/api.h"
 #include "avx/mceliece348864f/operations.h"
+#include "avx/mceliece348864f/decrypt.h"
+#include "avx/mceliece348864f/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 4608) && !defined(FASTKEYGEN)
 #include "avx/mceliece460896/api.h"
 #include "avx/mceliece460896/operations.h"
+#include "avx/mceliece460896/decrypt.h"
+#include "avx/mceliece460896/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 4608) && defined(FASTKEYGEN)
 #include "avx/mceliece460896f/api.h"
 #include "avx/mceliece460896f/operations.h"
+#include "avx/mceliece460896f/decrypt.h"
+#include "avx/mceliece460896f/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 6688) && !defined(FASTKEYGEN)
 #include "avx/mceliece6688128/api.h"
 #include "avx/mceliece6688128/operations.h"
+#include "avx/mceliece6688128/decrypt.h"
+#include "avx/mceliece6688128/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 6688) && defined(FASTKEYGEN)
 #include "avx/mceliece6688128f/api.h"
 #include "avx/mceliece6688128f/operations.h"
+#include "avx/mceliece6688128f/decrypt.h"
+#include "avx/mceliece6688128f/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 6960) && !defined(FASTKEYGEN)
 #include "avx/mceliece6960119/api.h"
 #include "avx/mceliece6960119/operations.h"
+#include "avx/mceliece6960119/decrypt.h"
+#include "avx/mceliece6960119/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 6960) && defined(FASTKEYGEN)
 #include "avx/mceliece6960119f/api.h"
 #include "avx/mceliece6960119f/operations.h"
+#include "avx/mceliece6960119f/decrypt.h"
+#include "avx/mceliece6960119f/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 8192) && !defined(FASTKEYGEN)
 #include "avx/mceliece8192128/api.h"
 #include "avx/mceliece8192128/operations.h"
+#include "avx/mceliece8192128/decrypt.h"
+#include "avx/mceliece8192128/params.h"
 #elif defined(ARCH_AVX) && (MCELIECE_N == 8192) && defined(FASTKEYGEN)
 #include "avx/mceliece8192128f/api.h"
 #include "avx/mceliece8192128f/operations.h"
+#include "avx/mceliece8192128f/decrypt.h"
+#include "avx/mceliece8192128f/params.h"
 
 #elif defined(ARCH_SSE) && (MCELIECE_N == 3488) && !defined(FASTKEYGEN)
 #include "sse/mceliece348864/api.h"
