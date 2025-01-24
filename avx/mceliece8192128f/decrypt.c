@@ -207,3 +207,43 @@ int decrypt(unsigned char *e, const unsigned char *sk, const unsigned char *s) {
 
   return 1 - (check_synd & check_weight);
 }
+
+
+int cpa_decrypt(unsigned char *e, const unsigned char *sk, const unsigned char *s) {
+  int i;
+  vec256 inv[64][GFBITS];
+  vec256 scaled[64][GFBITS];
+  vec256 eval[64][GFBITS];
+  vec128 error128[64];
+  vec256 error256[32];
+  vec256 s_priv[GFBITS];
+  vec256 s_priv_cmp[GFBITS];
+  vec128 locator[GFBITS];
+  vec128 recv128[64];
+  vec256 recv256[32];
+  vec256 allone;
+  vec128 bits_int[25][32];
+
+  // Berlekamp decoder
+  preprocess(recv128, s);
+  load_bits(bits_int, sk + IRR_BYTES);
+  benes(recv128, bits_int, 1);
+  reformat_128to256(recv256, recv128);
+  scaling(scaled, inv, sk, recv256); // scaling
+  fft_tr(s_priv, scaled);            // transposed FFT
+  bm(locator, s_priv);               // Berlekamp Massey
+  fft(eval, locator); // FFT
+
+  // reencryption and weight check
+  allone = vec256_set1_16b(0xFFFF);
+  for (i = 0; i < 32; i++) {
+    error256[i] = vec256_or_reduce(eval[i]);
+    error256[i] = vec256_xor(error256[i], allone);
+  }
+  reformat_256to128(error128, error256);
+  benes(error128, bits_int, 0);
+
+  for (i = 0; i < 64; i++)
+    store16(e + i * 16, error128[i]);
+  return 0;
+}
