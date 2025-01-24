@@ -25,7 +25,7 @@ extern void syndrome_asm(unsigned char *s, const unsigned char *pk,
                          unsigned char *e);
 
 /* output: e, an error vector of weight t */
-static void gen_e(unsigned char *e) {
+void gen_e(unsigned char *e) {
   int i, j, eq;
 
   int32_t ind[SYS_T]; // can also use uint16 or int16
@@ -91,4 +91,8 @@ void encrypt(unsigned char *s, const unsigned char *pk, unsigned char *e) {
 #endif
 
   syndrome_asm(s, pk, e);
+}
+
+void syndrome(uint8_t *ct, const uint8_t *pk, const uint8_t *e) {
+  syndrome_asm(ct, pk, e);
 }

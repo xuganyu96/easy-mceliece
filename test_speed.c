@@ -139,6 +139,7 @@ static void benchmark_kem_dec(void) {
   println_medium_from_timestamps("KEM decap", timestamps, SPEED_ROUNDS + 1);
 }
 
+#if defined(ARCH_AVX)
 static void benchmark_cpa_dec(void) {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
@@ -166,6 +167,34 @@ static void benchmark_cpa_dec(void) {
   println_medium_from_timestamps("PKE decap w/o check", timestamps, SPEED_ROUNDS + 1);
 }
 
+static void benchmark_cpa_enc(void) {
+  uint8_t pk[CRYPTO_PUBLICKEYBYTES];
+  uint8_t sk[CRYPTO_SECRETKEYBYTES];
+  uint8_t ct[CRYPTO_CIPHERTEXTBYTES];
+  uint8_t ss[CRYPTO_BYTES];
+  uint8_t ss_cmp[CRYPTO_BYTES];
+  uint8_t e[SYS_N / 8];
+  crypto_kem_keypair(pk, sk);
+  crypto_kem_enc(ct, ss, pk);
+
+  timestamps[0] = get_clock_cpu();
+  for (int i = 0; i < SPEED_ROUNDS; i++) {
+    gen_e(e);
+    timestamps[i + 1] = get_clock_cpu();
+  }
+
+  println_medium_from_timestamps("Sample error vec", timestamps, SPEED_ROUNDS + 1);
+
+  timestamps[0] = get_clock_cpu();
+  for (int i = 0; i < SPEED_ROUNDS; i++) {
+    syndrome(ct, pk, e);
+    timestamps[i + 1] = get_clock_cpu();
+  }
+
+  println_medium_from_timestamps("Synd in Enc", timestamps, SPEED_ROUNDS + 1);
+}
+#endif
+
 static void benchmark_kem_keypair(int keygen_rounds) {
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t sk[CRYPTO_SECRETKEYBYTES];
@@ -186,6 +215,9 @@ int main(void) {
   benchmark_kem_keypair(SPEED_ROUNDS > 10 ? 10 : SPEED_ROUNDS);
   benchmark_kem_enc();
   benchmark_kem_dec();
+#ifdef ARCH_AVX
   benchmark_cpa_dec();
+  benchmark_cpa_enc();
+#endif
   return 0;
 }
