@@ -1,10 +1,7 @@
 # Easy McEliece
 Classic McEliece's reference and optimized implementations with a few tweaks:
 - external dependencies such as OpenSSL (for getting random bytes) and `libkeccak` (seriously what is this?) have been removed
-
-- [ ] Take apart the original implementation so that the OW-CPA subroutines can be exposed
-- [ ] Compile into static and/or shared library
-- [ ] Perhaps maintain namespacing so that different variants can be run in the same program
+- Take apart the original implementation so that the OW-CPA subroutines can be exposed
 
 # Expose CPA encrypt/decrypt
 In the reference implementation, encryption and decryption are implemented non-modularly: `encrypt` calls `gen_e`, where as `decrypt` already contains the integrity check. I want to increase the modularity of the code by separating `gen_e` and integrity check from the one-way functions. I plan to add the following functions:
